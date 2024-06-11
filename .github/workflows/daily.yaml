@@ -1,0 +1,20 @@
+name: Run daily cronjobs and commit state back
+
+on:
+#  schedule:
+#    - cron: "5 4 * * *"
+  workflow_dispatch:
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        run: git clone "https://oauth2:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY" -b "$GITHUB_REF_NAME" "$GITHUB_WORKSPACE" && cd "$GITHUB_WORKSPACE"
+
+      - name: Run the workflow
+        run: bash entrypoint
+        env:
+          DEPLOYKEY: ${{ secrets.DEPLOYKEY }}
+          A: ${{ secrets.A }}
+          B: ${{ secrets.B }}

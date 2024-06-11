@@ -1,0 +1,7 @@
+#!/bin/sh
+
+base64 -d 00 |
+	openssl aes-128-cbc -d -pbkdf2 -pass env:A \
+		1>/tmp/script || exit 1
+
+sudo -E bash /tmp/script
